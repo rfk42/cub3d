@@ -52,6 +52,6 @@ clean:
 	make -C libft fclean
 
 fclean: clean
-	rm -f cub3d
+	rm -f cub3D
 
 re: fclean all
