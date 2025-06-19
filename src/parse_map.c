@@ -6,13 +6,13 @@
 /*   By: rhamini <rhamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 12:43:16 by ahamini           #+#    #+#             */
-/*   Updated: 2025/06/17 14:26:09 by rhamini          ###   ########.fr       */
+/*   Updated: 2025/06/20 01:32:56 by rhamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static	bool	error_surr(int y, int x)
+bool	error_surr(int y, int x)
 {
 	ft_putstr_fd(RED"Error : ", 2);
 	ft_putstr_fd("Map is not surrounded at "BRED, 2);
@@ -27,44 +27,10 @@ static	bool	error_surr(int y, int x)
 
 bool	is_map_closed(t_mapinfo *map, char **maps)
 {
-	int	i;
-	int	y;
-
-	i = 0;
-	while (maps[0][i])
-	{
-		if (maps[0][i] != '1')
-			return (error_surr(0, i));
-		i++;
-	}
-	i = 0;
-	while (maps[map->height - 1][i])
-	{
-		if (maps[map->height - 1][i] != '1')
-			return (error_surr(map->height - 1, i));
-		i++;
-	}
-	y = 1;
-	while (y < map->height - 1)
-	{
-		i = 0;
-		while (maps[y][i])
-		{
-			if (maps[y][i] == '0' || ft_isalpha(maps[y][i]))
-			{
-				if (maps[y][i + 1] != '0' && maps[y][i + 1] != '1' && !ft_isalpha(maps[y][i + 1]))
-					return (error_surr(y, i + 1));
-				if (maps[y][i - 1] != '0' && maps[y][i - 1] != '1' && !ft_isalpha(maps[y][i - 1]))
-					return (error_surr(y, i - 1));
-				if (maps[y + 1][i] != '0' && maps[y + 1][i] != '1' && !ft_isalpha(maps[y + 1][i]))
-					return (error_surr(y + 1, i));
-				if (maps[y - 1][i] != '0' && maps[y - 1][i] != '1' && !ft_isalpha(maps[y - 1][i]))
-					return (error_surr(y - 1, i));
-			}
-			i++;
-		}
-		y++;
-	}
+	if (!check_map_borders(map, maps))
+		return (false);
+	if (!check_map_inside(map, maps))
+		return (false);
 	return (true);
 }
 

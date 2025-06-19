@@ -6,7 +6,7 @@
 /*   By: rhamini <rhamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 12:12:14 by ahamini           #+#    #+#             */
-/*   Updated: 2025/06/17 14:39:45 by rhamini          ###   ########.fr       */
+/*   Updated: 2025/06/20 01:07:16 by rhamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static int	copy_line_to_map_tab(char *src_line, char *dest_line, size_t width)
 	return (SUCCESS);
 }
 
-static int	create_map_array(t_mapinfo *mapinfo, char **map_tab, int start_index)
+static int	create_map_arr(t_mapinfo *mapinfo, char **map_tab, int start_index)
 {
 	int	i;
 
@@ -82,7 +82,7 @@ static int	create_map_array(t_mapinfo *mapinfo, char **map_tab, int start_index)
 		if (!map_tab[i])
 			return (err_msg("Malloc error", FAILURE));
 		if (copy_line_to_map_tab(mapinfo->file[start_index + i], map_tab[i],
-			mapinfo->width) == FAILURE)
+				mapinfo->width) == FAILURE)
 			return (FAILURE);
 		i++;
 	}
@@ -97,7 +97,7 @@ int	start_map_creation(t_vars *vars, char **file, int i)
 	vars->map = malloc(sizeof(char *) * (vars->mapinfo.height + 1));
 	if (!vars->map)
 		return (err_msg("Malloc error", FAILURE));
-	if (create_map_array(&vars->mapinfo, vars->map, i) == FAILURE)
+	if (create_map_arr(&vars->mapinfo, vars->map, i) == FAILURE)
 		return (FAILURE);
 	return (SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: rhamini <rhamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 09:43:39 by ahamini           #+#    #+#             */
-/*   Updated: 2025/06/17 14:24:02 by rhamini          ###   ########.fr       */
+/*   Updated: 2025/06/20 01:13:51 by rhamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,21 @@ bool	check_textures_file(char *file)
 {
 	int	fd;
 
-	if ((fd = open(file, O_DIRECTORY)) != -1)
+	fd = open(file, O_DIRECTORY);
+	if (fd != -1)
 	{
+		close(fd);
 		ft_putstr_fd(RED"Error : ", 2);
 		ft_putstr_fd(file, 2);
 		ft_putstr_fd(" is a directory\n"RESET, 2);
 		return (false);
 	}
-	if ((fd = open(file, O_RDONLY)) == -1)
+	fd = open(file, O_RDONLY);
+	if (fd == -1)
 	{
 		ft_putstr_fd(RED"Error : File : ", 2);
 		ft_putstr_fd(file, 2);
-		ft_putstr_fd(" doesn't end by .xpm\n"RESET, 2);
+		ft_putstr_fd(" cannot be opened or doesn't exist\n"RESET, 2);
 		return (false);
 	}
 	close(fd);

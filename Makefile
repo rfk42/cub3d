@@ -6,16 +6,20 @@ SOURCES=\
 	src/init_data.c \
 	src/errors.c \
 	src/extract_map_info.c \
+	src/extract_map_2.c \
 	src/manage_colors.c \
 	src/creation_map.c \
 	src/parse_map.c \
+	src/parse_map_2.c \
 	src/valid_char_in_map.c \
 	src/find_player_pos.c \
 	src/parse_textures.c \
 	src/key_press.c \
-	src/free.c \
+	src/clean_exit.c \
+	src/free_utils.c \
 	src/init_player_dir.c \
 	src/render.c \
+	src/render_2.c \
 	src/raycasting_utils.c \
 	src/line_utils.c \
 

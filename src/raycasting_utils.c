@@ -6,7 +6,7 @@
 /*   By: rhamini <rhamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 18:10:56 by rhamini           #+#    #+#             */
-/*   Updated: 2025/06/16 18:10:59 by rhamini          ###   ########.fr       */
+/*   Updated: 2025/06/20 00:48:30 by rhamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,24 +78,5 @@ void	perform_dda(t_vars *vars, t_ray *ray)
 		}
 		if (vars->map[ray->map_y][ray->map_x] == '1')
 			ray->hit = 1;
-	}
-}
-
-void	draw_vertical_line(t_vars *vars, t_line line)
-{
-	int	y;
-
-	y = 0;
-	while (y < WIN_HEIGHT)
-	{
-		if (y < line.start)
-			mlx_pixel_put(vars->mlx, vars->win, line.x, y,
-				vars->texinfo.ceiling_hex);
-		else if (y >= line.start && y <= line.end)
-			mlx_pixel_put(vars->mlx, vars->win, line.x, y, line.color);
-		else
-			mlx_pixel_put(vars->mlx, vars->win, line.x, y,
-				vars->texinfo.floor_hex);
-		y++;
 	}
 }

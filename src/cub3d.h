@@ -6,7 +6,7 @@
 /*   By: rhamini <rhamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 08:44:58 by ahamini           #+#    #+#             */
-/*   Updated: 2025/06/19 12:11:15 by rhamini          ###   ########.fr       */
+/*   Updated: 2025/06/20 01:51:39 by rhamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,31 +130,39 @@ typedef struct s_ray
 	int		side;
 }	t_ray;
 
-typedef struct s_line
+typedef struct s_draw
 {
-	int	x;
-	int	start;
-	int	end;
-	int	color;
-}	t_line;
-
+	int		tex_x;
+	int		height;
+	int		start;
+	int		end;
+}	t_draw;
 
 int		main(int ac, char **av);
 int		extract_map_info(t_vars *vars, char **map);
+int		check_mdr_info(t_vars *vars);
+int		ignore_whitespaces_get_info(t_vars *vars, char **map, int i, int j);
+int		fill_direction_textures(t_texinfo *textures, char *line, int j);
+char	*get_texture_path(char *line, int j);
 int		fill_color_textures(t_texinfo *textures, char *line, int j);
 int		err_msg(char *str, int code);
-int		free_vars(t_vars *vars);
 bool	parse_args(char **argv, int ac);
 bool	check_file(char *fill);
 void	init_data(t_vars *vars);
 int		parse_data(char *path, t_vars *vars);
 void	*ft_calloc(size_t nmemb, size_t size);
-void	free_tab(void **tab);
 int		start_map_creation(t_vars *vars, char **file, int i);
 int		parsing_map(t_vars *vars, char **map_tab);
+bool	error_surr(int y, int x);
+bool	check_map_borders(t_mapinfo *map, char **maps);
+bool	check_surroundings(char **maps, int y, int i);
+bool	check_map_inside(t_mapinfo *map, char **maps);
 bool	is_valid_char(t_vars *vars, char **map_tab);
 int		is_there_a_player(t_vars *vars, char **map_tab);
 int		parsing_textures(t_texinfo *textures);
+void	free_tab(void **tab);
+void	free_textures(t_vars *vars);
+int		free_vars(t_vars *vars);
 void	clean_exit(t_vars *vars, int code);
 int		key_press(int keycode, t_vars *vars);
 int		key_release(int keycode, t_vars *vars);
@@ -169,10 +177,8 @@ void	calc_ray(t_vars *v, t_ray *r, int x);
 void	init_ray_step_x(t_vars *v, t_ray *r);
 void	init_ray_step_y(t_vars *v, t_ray *r);
 void	perform_dda(t_vars *vars, t_ray *ray);
-t_line	build_line(int x, int y0, int y1, int color);
-int		get_wall_color(int side);
-void	draw_vertical_line(t_vars *vars, t_line line);
 void	load_textures(t_vars *v);
+int		get_tex_id(t_ray *ray);
 void	draw_texture_column(t_vars *v, int x, t_ray *r, t_img *t);
 
 #endif
