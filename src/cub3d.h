@@ -6,7 +6,7 @@
 /*   By: rhamini <rhamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 08:44:58 by ahamini           #+#    #+#             */
-/*   Updated: 2025/06/17 14:53:19 by rhamini          ###   ########.fr       */
+/*   Updated: 2025/06/19 12:11:15 by rhamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 # include <stdio.h>
 # include <X11/keysym.h>
 # include <X11/Xlib.h>
-# include <X11/extensions/XShm.h>
 # include <X11/X.h>
 # include <fcntl.h>
 # include <stdbool.h>
@@ -60,12 +59,6 @@ typedef struct s_texinfo
 	int				ceiling_set;
 	unsigned long	floor_hex;
 	unsigned long	ceiling_hex;
-	int				size;
-	int				index;
-	double			step;
-	double			pos;
-	int				x;
-	int				y;
 }	t_texinfo;
 
 typedef struct s_player
@@ -94,6 +87,17 @@ typedef struct s_mapinfo
 	int			last_line_map;
 }	t_mapinfo;
 
+typedef struct s_img
+{
+	void	*img;
+	char	*addr;
+	int		bpp;
+	int		line_len;
+	int		endian;
+	int		width;
+	int		height;
+}	t_img;
+
 typedef struct s_vars
 {
 	void		*mlx;
@@ -104,9 +108,8 @@ typedef struct s_vars
 	t_mapinfo	mapinfo;
 	t_player	player;
 	char		**map;
-	int			**texture_pixels;
-	int			**textures;
 	int			key_states[65536];
+	t_img		texture[4];
 }	t_vars;
 
 typedef struct s_ray
@@ -169,5 +172,7 @@ void	perform_dda(t_vars *vars, t_ray *ray);
 t_line	build_line(int x, int y0, int y1, int color);
 int		get_wall_color(int side);
 void	draw_vertical_line(t_vars *vars, t_line line);
+void	load_textures(t_vars *v);
+void	draw_texture_column(t_vars *v, int x, t_ray *r, t_img *t);
 
 #endif

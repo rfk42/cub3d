@@ -6,7 +6,7 @@
 /*   By: rhamini <rhamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 13:12:07 by ahamini           #+#    #+#             */
-/*   Updated: 2025/06/17 14:28:23 by rhamini          ###   ########.fr       */
+/*   Updated: 2025/06/19 12:22:32 by rhamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,19 @@ static void	free_texinfo(t_texinfo *textures)
 		free(textures->ceiling);
 }
 
+void	free_textures(t_vars *vars)
+{
+	int	i;
+
+	i = 0;
+	while (i < 4)
+	{
+		if (vars->texture[i].img)
+			mlx_destroy_image(vars->mlx, vars->texture[i].img);
+		i++;
+	}
+}
+
 static void	free_map(t_vars *vars)
 {
 	if (vars->mapinfo.fd > 0)
@@ -57,10 +70,6 @@ static void	free_map(t_vars *vars)
 
 int	free_vars(t_vars *vars)
 {
-	if (vars->textures)
-		free_tab((void **)vars->textures);
-	if (vars->texture_pixels)
-		free_tab((void **)vars->texture_pixels);
 	free_texinfo(&vars->texinfo);
 	free_map(vars);
 	return (FAILURE);
@@ -74,6 +83,7 @@ void	clean_exit(t_vars *vars, int code)
 		mlx_destroy_window(vars->mlx, vars->win);
 	if (vars->mlx)
 	{
+		free_textures(vars);
 		mlx_destroy_display(vars->mlx);
 		mlx_loop_end(vars->mlx);
 		free(vars->mlx);

@@ -6,7 +6,7 @@
 /*   By: rhamini <rhamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 13:13:50 by ahamini           #+#    #+#             */
-/*   Updated: 2025/06/17 14:28:05 by rhamini          ###   ########.fr       */
+/*   Updated: 2025/06/19 12:17:00 by rhamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,14 @@ static void	init_mapinfo(t_mapinfo *mapinfo)
 
 void	init_data(t_vars *vars)
 {
+	ft_bzero(vars, sizeof(t_vars));
+	ft_bzero(vars->key_states, sizeof(vars->key_states));
+	memset(vars->texture, 0, sizeof(vars->texture));
 	vars->mlx = NULL;
 	vars->win = NULL;
 	vars->win_height = WIN_HEIGHT;
 	vars->win_width = WIN_WIDTH;
 	vars->map = NULL;
 	init_mapinfo(&vars->mapinfo);
-	vars->texture_pixels = NULL;
-	vars->textures = NULL;
 	init_textinfo(&vars->texinfo);
 }

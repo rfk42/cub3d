@@ -6,7 +6,7 @@
 /*   By: rhamini <rhamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 08:30:55 by ahamini           #+#    #+#             */
-/*   Updated: 2025/06/16 17:24:33 by rhamini          ###   ########.fr       */
+/*   Updated: 2025/06/19 12:24:18 by rhamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,13 @@ int main(int ac, char **av)
 		return (free_vars(&vars), 1);
 	init_player_direction(&vars);
 	init_mlx(&vars);
+	load_textures(&vars);
 	mlx_do_key_autorepeaton(vars.mlx);
 	mlx_hook(vars.win, KeyPress, KeyPressMask, key_press, &vars);
 	mlx_hook(vars.win, KeyRelease, KeyReleaseMask, key_release, &vars);	
 	mlx_hook(vars.win, 17, 0, close_window, &vars);
 	mlx_loop_hook(vars.mlx, render, &vars);
 	mlx_loop(vars.mlx);	
-	free_vars(&vars);
+	clean_exit(&vars, 0);
     return (0);
 }
