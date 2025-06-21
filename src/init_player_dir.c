@@ -6,7 +6,7 @@
 /*   By: rhamini <rhamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 12:39:15 by ahamini           #+#    #+#             */
-/*   Updated: 2025/06/16 17:08:17 by rhamini          ###   ########.fr       */
+/*   Updated: 2025/06/21 14:44:04 by rhamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 static void	init_player_north_south(t_player *player)
 {
-	if (player->dir == 'S')
+	if (player->dir == 'E')
 	{
 		player->dir_x = 0;
 		player->dir_y = 1;
 		player->plane_x = -0.66;
 		player->plane_y = 0;
 	}
-	else if (player->dir == 'N')
+	else if (player->dir == 'W')
 	{
 		player->dir_x = 0;
 		player->dir_y = -1;
@@ -34,14 +34,14 @@ static void	init_player_north_south(t_player *player)
 
 static void	init_player_east_west(t_player *player)
 {
-	if (player->dir == 'W')
+	if (player->dir == 'N')
 	{
 		player->dir_x = -1;
 		player->dir_y = 0;
 		player->plane_x = 0;
 		player->plane_y = -0.66;
 	}
-	else if (player->dir == 'E')
+	else if (player->dir == 'S')
 	{
 		player->dir_x = 1;
 		player->dir_y = 0;

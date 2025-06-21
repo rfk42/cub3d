@@ -6,7 +6,7 @@
 /*   By: rhamini <rhamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 18:10:56 by rhamini           #+#    #+#             */
-/*   Updated: 2025/06/20 00:48:30 by rhamini          ###   ########.fr       */
+/*   Updated: 2025/06/21 16:21:30 by rhamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,12 @@ void	init_ray_step_x(t_vars *v, t_ray *r)
 	if (r->ray_dir_x < 0)
 	{
 		r->step_x = -1;
-		r->side_dist_x = (v->player.pos_x - r->map_x)
-			* r->delta_dist_x;
+		r->side_dist_x = (v->player.pos_x - r->map_x) * r->delta_dist_x;
 	}
 	else
 	{
 		r->step_x = 1;
-		r->side_dist_x = (r->map_x + 1.0 - v->player.pos_x)
-			* r->delta_dist_x;
+		r->side_dist_x = (r->map_x + 1.0 - v->player.pos_x) * r->delta_dist_x;
 	}
 }
 
@@ -49,34 +47,48 @@ void	init_ray_step_y(t_vars *v, t_ray *r)
 	if (r->ray_dir_y < 0)
 	{
 		r->step_y = -1;
-		r->side_dist_y = (v->player.pos_y - r->map_y)
-			* r->delta_dist_y;
+		r->side_dist_y = (v->player.pos_y - r->map_y) * r->delta_dist_y;
 	}
 	else
 	{
 		r->step_y = 1;
-		r->side_dist_y = (r->map_y + 1.0 - v->player.pos_y)
-			* r->delta_dist_y;
+		r->side_dist_y = (r->map_y + 1.0 - v->player.pos_y) * r->delta_dist_y;
 	}
 }
 
-void	perform_dda(t_vars *vars, t_ray *ray)
+void	perform_dda(t_vars *v, t_ray *r)
 {
-	while (ray->hit == 0)
+	int		limit;
+
+	limit = 400;
+	while (r->hit == 0 && limit-- > 0)
 	{
-		if (ray->side_dist_x < ray->side_dist_y)
+		if (r->side_dist_x < r->side_dist_y)
 		{
-			ray->side_dist_x += ray->delta_dist_x;
-			ray->map_x += ray->step_x;
-			ray->side = 0;
+			r->side_dist_x += r->delta_dist_x;
+			r->map_x += r->step_x;
+			r->side = 0;
 		}
 		else
 		{
-			ray->side_dist_y += ray->delta_dist_y;
-			ray->map_y += ray->step_y;
-			ray->side = 1;
+			r->side_dist_y += r->delta_dist_y;
+			r->map_y += r->step_y;
+			r->side = 1;
 		}
-		if (vars->map[ray->map_y][ray->map_x] == '1')
-			ray->hit = 1;
+		if (r->map_y < 0 || r->map_y >= v->mapinfo.height
+			|| r->map_x < 0 || r->map_x >= (int)ft_strlen(v->map[r->map_y]))
+			break ;
+		if (v->map[r->map_y][r->map_x] == '1')
+			r->hit = 1;
 	}
+}
+
+void	put_pixel(t_img *img, int x, int y, int color)
+{
+	char	*dst;
+
+	if (x < 0 || x >= WIN_WIDTH || y < 0 || y >= WIN_HEIGHT)
+		return ;
+	dst = img->addr + (y * img->line_len + x * (img->bpp / 8));
+	*(unsigned int *)dst = color;
 }

@@ -6,7 +6,7 @@
 /*   By: rhamini <rhamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 01:04:24 by rhamini           #+#    #+#             */
-/*   Updated: 2025/06/20 01:05:28 by rhamini          ###   ########.fr       */
+/*   Updated: 2025/06/21 16:21:18 by rhamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,22 +51,28 @@ static int	get_tex_x(t_ray *r, double wall_x, int tex_width)
 
 static void	draw_pixel(t_vars *v, t_img *t, t_draw draw, int x)
 {
-	int	y;
-	int	tex_y;
-	int	color;
+	int			y;
+	int			tex_y;
+	int			color;
 
 	y = 0;
 	while (y < WIN_HEIGHT)
 	{
 		if (y < draw.start)
-			mlx_pixel_put(v->mlx, v->win, x, y, v->texinfo.ceiling_hex);
+			put_pixel(&v->img, x, y, v->texinfo.ceiling_hex);
 		else if (y > draw.end)
-			mlx_pixel_put(v->mlx, v->win, x, y, v->texinfo.floor_hex);
+			put_pixel(&v->img, x, y, v->texinfo.floor_hex);
 		else
 		{
 			tex_y = (y - draw.start) * t->height / draw.height;
+			if (tex_y < 0 || tex_y >= t->height || draw.tex_x < 0
+				|| draw.tex_x >= t->width)
+			{
+				y++;
+				continue ;
+			}
 			color = ((unsigned int *)t->addr)[t->width * tex_y + draw.tex_x];
-			mlx_pixel_put(v->mlx, v->win, x, y, color);
+			put_pixel(&v->img, x, y, color);
 		}
 		y++;
 	}
@@ -77,10 +83,14 @@ void	draw_texture_column(t_vars *v, int x, t_ray *r, t_img *t)
 	t_draw	draw;
 	double	wall_x;
 
+	if (r->perp_wall_dist <= 0.01 || r->perp_wall_dist >= 1e6)
+		return ;
 	wall_x = get_wall_hit(v, r);
 	wall_x -= floor(wall_x);
 	draw.tex_x = get_tex_x(r, wall_x, t->width);
 	draw.height = (int)(WIN_HEIGHT / r->perp_wall_dist);
+	if (draw.height > WIN_HEIGHT * 10)
+		draw.height = WIN_HEIGHT * 10;
 	draw.start = -draw.height / 2 + WIN_HEIGHT / 2;
 	if (draw.start < 0)
 		draw.start = 0;

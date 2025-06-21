@@ -6,7 +6,7 @@
 /*   By: rhamini <rhamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 01:04:29 by rhamini           #+#    #+#             */
-/*   Updated: 2025/06/20 01:04:32 by rhamini          ###   ########.fr       */
+/*   Updated: 2025/06/21 16:21:44 by rhamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int	render(t_vars *vars)
 		render_column(vars, x);
 		x++;
 	}
+	mlx_put_image_to_window(vars->mlx, vars->win, vars->img.img, 0, 0);
 	return (0);
 }
 
@@ -34,7 +35,7 @@ void	render_movement_translation(t_vars *v)
 	double		move;
 
 	p = &v->player;
-	move = 0.05;
+	move = 0.02;
 	if (v->key_states[XK_w])
 	{
 		if (v->map[(int)p->pos_y][(int)(p->pos_x + p->dir_x * move)] != '1')
@@ -57,7 +58,7 @@ void	render_movement_strafe(t_vars *v)
 	double		move;
 
 	p = &v->player;
-	move = 0.05;
+	move = 0.02;
 	if (v->key_states[XK_a])
 	{
 		if (v->map[(int)p->pos_y][(int)(p->pos_x - p->plane_x * move)] != '1')
@@ -82,9 +83,9 @@ void	render_movement_rotation(t_vars *v)
 
 	p = &v->player;
 	if (v->key_states[XK_Left])
-		rot = -0.03;
+		rot = -0.01;
 	else if (v->key_states[XK_Right])
-		rot = 0.03;
+		rot = 0.01;
 	else
 		return ;
 	tmp = p->dir_x;

@@ -6,7 +6,7 @@
 /*   By: rhamini <rhamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 08:44:58 by ahamini           #+#    #+#             */
-/*   Updated: 2025/06/20 01:51:39 by rhamini          ###   ########.fr       */
+/*   Updated: 2025/06/21 16:20:22 by rhamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ typedef struct s_vars
 	char		**map;
 	int			key_states[65536];
 	t_img		texture[4];
+	t_img		img;
 }	t_vars;
 
 typedef struct s_ray
@@ -177,6 +178,7 @@ void	calc_ray(t_vars *v, t_ray *r, int x);
 void	init_ray_step_x(t_vars *v, t_ray *r);
 void	init_ray_step_y(t_vars *v, t_ray *r);
 void	perform_dda(t_vars *vars, t_ray *ray);
+void	put_pixel(t_img *img, int x, int y, int color);
 void	load_textures(t_vars *v);
 int		get_tex_id(t_ray *ray);
 void	draw_texture_column(t_vars *v, int x, t_ray *r, t_img *t);

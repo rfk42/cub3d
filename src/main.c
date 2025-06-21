@@ -6,7 +6,7 @@
 /*   By: rhamini <rhamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 08:30:55 by ahamini           #+#    #+#             */
-/*   Updated: 2025/06/20 01:24:34 by rhamini          ###   ########.fr       */
+/*   Updated: 2025/06/21 16:37:42 by rhamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,15 @@ void	init_mlx(t_vars *vars)
 	vars->win = mlx_new_window(vars->mlx, WIN_WIDTH, WIN_HEIGHT, "Cub3D");
 	if (!vars->win)
 		clean_exit(vars, err_msg("Can't create mlx window", 1));
-	return ;
+	vars->img.img = mlx_new_image(vars->mlx, WIN_WIDTH, WIN_HEIGHT);
+	if (!vars->img.img)
+		clean_exit(vars, err_msg("Failed to create image", 1));
+	vars->img.addr = mlx_get_data_addr(vars->img.img,
+			&vars->img.bpp, &vars->img.line_len, &vars->img.endian);
 }
 
-static int	start_parsing(int ac, char **av, t_vars *vars)
+static int	start_parsing(char **av, t_vars *vars)
 {
-	if (!parse_args(av, ac))
-		return (FAILURE);
 	init_data(vars);
 	if (parse_data(av[1], vars) != 0)
 		return (FAILURE);
@@ -60,8 +62,9 @@ static void	start_mlx(t_vars *vars)
 int	main(int ac, char **av)
 {
 	t_vars	vars;
-
-	if (start_parsing(ac, av, &vars) == FAILURE)
+	if (!parse_args(av, ac))
+		return (1);
+	if (start_parsing(av, &vars) == FAILURE)
 		return (free_vars(&vars), 1);
 	start_mlx(&vars);
 	clean_exit(&vars, 0);

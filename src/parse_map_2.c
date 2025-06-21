@@ -6,7 +6,7 @@
 /*   By: rhamini <rhamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 01:32:29 by rhamini           #+#    #+#             */
-/*   Updated: 2025/06/20 01:32:47 by rhamini          ###   ########.fr       */
+/*   Updated: 2025/06/20 19:28:32 by rhamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ bool	check_map_borders(t_mapinfo *map, char **maps)
 	i = 0;
 	while (maps[0][i])
 	{
+		if (ft_isspace(maps[0][i]))
+			maps[0][i] = '1';
 		if (maps[0][i] != '1')
 			return (error_surr(0, i));
 		i++;
@@ -26,6 +28,8 @@ bool	check_map_borders(t_mapinfo *map, char **maps)
 	i = 0;
 	while (maps[map->height - 1][i])
 	{
+		if (ft_isspace(maps[map->height - 1][i]))
+			maps[map->height - 1][i] = '1';
 		if (maps[map->height - 1][i] != '1')
 			return (error_surr(map->height - 1, i));
 		i++;
@@ -36,16 +40,16 @@ bool	check_map_borders(t_mapinfo *map, char **maps)
 bool	check_surroundings(char **maps, int y, int i)
 {
 	if (maps[y][i + 1] != '0' && maps[y][i + 1] != '1'
-		&& !ft_isalpha(maps[y][i + 1]))
+		&& !ft_isalpha(maps[y][i + 1]) && !ft_isspace(maps[y][i + 1]))
 		return (error_surr(y, i + 1));
 	if (maps[y][i - 1] != '0' && maps[y][i - 1] != '1'
-		&& !ft_isalpha(maps[y][i - 1]))
+		&& !ft_isalpha(maps[y][i - 1]) && !ft_isspace(maps[y][i - 1]))
 		return (error_surr(y, i - 1));
 	if (maps[y + 1][i] != '0' && maps[y + 1][i] != '1'
-		&& !ft_isalpha(maps[y + 1][i]))
+		&& !ft_isalpha(maps[y + 1][i]) && !ft_isspace(maps[y + 1][i]))
 		return (error_surr(y + 1, i));
 	if (maps[y - 1][i] != '0' && maps[y - 1][i] != '1'
-		&& !ft_isalpha(maps[y - 1][i]))
+		&& !ft_isalpha(maps[y - 1][i]) && !ft_isspace(maps[y - 1][i]))
 		return (error_surr(y - 1, i));
 	return (true);
 }
@@ -61,6 +65,8 @@ bool	check_map_inside(t_mapinfo *map, char **maps)
 		i = 0;
 		while (maps[y][i])
 		{
+			if (ft_isspace(maps[y][i]))
+				maps[y][i] = '1';
 			if (maps[y][i] == '0' || ft_isalpha(maps[y][i]))
 			{
 				if (!check_surroundings(maps, y, i))

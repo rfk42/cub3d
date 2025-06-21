@@ -6,7 +6,7 @@
 /*   By: rhamini <rhamini@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 12:01:05 by ahamini           #+#    #+#             */
-/*   Updated: 2025/06/20 01:14:43 by rhamini          ###   ########.fr       */
+/*   Updated: 2025/06/21 16:49:38 by rhamini          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,10 @@ static int	check_rgb_line(char *line)
 		line++;
 	while (line[i])
 	{
-		if (!ft_isdigit(line[i]) && line[i] != ',' && !ft_isspace(line[i]))
+		if (!ft_isdigit(line[i]) && line[i] != ',' && line[i] != '\n')
+		{
 			return (err_msg("Invalid character in RGB line", ERR));
+		}
 		i++;
 	}
 	return (SUCCESS);
